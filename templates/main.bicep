@@ -6,26 +6,11 @@ param rootName string
 ])
 param environmentType string = 'nonprod'
 
-var storageAccountSkuName = (environmentType == 'prod') ? 'Standard_GRS' : 'Standard_LRS'
-var appServicePlanSkuName = (environmentType == 'prod') ? 'P2v3' : 'F1'
-
-resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
-  name: '${rootName}sa'
-  location: location
-  sku: {
-    name: storageAccountSkuName
-  }
-  kind: 'StorageV2'
-  properties: {
-    accessTier: 'Hot'
-  }
-}
-
-module appService 'modules/appService.bicep' = {
-  name: 'appService'
+module storage 'modules/storage.bicep' = {
+  name: 'storage'
   params: {
     location: location
-    rootName: rootName
+    rootName: '${rootName}sa'
     environmentType: environmentType
   }
 }
@@ -35,6 +20,15 @@ module cosmosDB 'modules/cosmosDB.bicep' = {
   params: {
     location: location
     rootName: rootName
+  }
+}
+
+module appService 'modules/appService.bicep' = {
+  name: 'appService'
+  params: {
+    location: location
+    rootName: rootName
+    environmentType: environmentType
   }
 }
 
