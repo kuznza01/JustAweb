@@ -24,6 +24,3 @@ In order to use project you will need Azure CLI and a Resource Group in Azure.
       New-AzResourceGroupDeployment -TemplateFile .\main.bicep -environmentType nonprod -rootName <basename> -objectId $(az ad signed-in-user show --query id -o tsv)
 
       Note: <basename> must start with a letter, can be between 3 and 15 characters, must have some numbers in it, cannot have special characters, and must be lowercase letters.
-
-
-Demo Vid: https://microsoft-my.sharepoint.com/:v:/p/kuznickizach/EfI7tlQUC4JMt70hAUY9KfoBoCL9ikx_0p0jjTCzV_w5oQ?e=8OaEet
