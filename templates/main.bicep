@@ -5,6 +5,17 @@ param rootName string
   'nonprod'
 ])
 param environmentType string = 'nonprod'
+param objectId string
+
+module keyVault 'modules/keyvault.bicep' = {
+  name: 'keyVault'
+  params: {
+    location: location
+    rootName: rootName
+    environmentType: environmentType
+    objectId: objectId
+  }
+}
 
 module storage 'modules/storage.bicep' = {
   name: 'storage'
@@ -33,3 +44,4 @@ module appService 'modules/appService.bicep' = {
 }
 
 output appServiceAppHostName string = appService.outputs.appServiceAppHostName
+output proxyKey object = keyVault.outputs.proxyKey
